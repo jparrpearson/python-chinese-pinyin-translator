@@ -6,9 +6,9 @@ This is a Python script that translates Chinese characters (traditional or simpl
 
 Translation can be applied to either a single file, all files in a directory (including nested directories).
 
-For example, to translate a file `台灣.txt` in the `test` directory:
+For example, to translate a file `test1.txt` in the `test` directory:
 ```
-python translate.py -f test/台灣.txt
+python translate.py -f test/test1.txt
 ```
 
 ### Options
