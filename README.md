@@ -2,7 +2,7 @@
 
 This is a Python script that translates Chinese characters (traditional or simplified) to Hanyu Pinyin.
 
-The [CC-CEDICT dictionary](http://cc-cedict.org/wiki/) (under the Creative Commons License) is used in translating.
+The [CC-CEDICT dictionary](http://cc-cedict.org/wiki/) is used in translating.
 
 ## Usage
 
@@ -26,9 +26,10 @@ Note that `Short Name` parameters are specified with a single dash (e.g. `-h`), 
 | d | dir | - | The input directory to translate (translates all files in nested directories).  One of `dir` or `file` is required. |
 | t | tones | false | Output the pinyin tone numbers. |
 | c | capitalize | true | Capitalize the pinyin (otherwise all lower case). |
-| b | backup | true | Backup each translated file ('filename.ext.BAK'). |
+| b | backup | true | Backup each translated file (`filename.ext.BAK`). |
 
 ## License
 
-* Apache License, Version 2.0
-* Creative Commons Attribution-Share Alike 3.0 License (CC-CEDICT)
+Apache License, Version 2.0
+
+Creative Commons Attribution-Share Alike 3.0 License (CC-CEDICT)
