@@ -4,7 +4,7 @@ This is a Python script that translates Chinese characters (traditional or simpl
 
 ## Usage
 
-Translation can be applied to either a single file, all files in a directory (including nested directories).
+Translation can be applied to either a single file, all files in a directory (including nested directories).  By default it translates just the file name, but it can also translate the file contents, or both filename and contents.
 
 For example, to translate the file contents for a file named `test1.txt` in the `test` directory:
 ```
