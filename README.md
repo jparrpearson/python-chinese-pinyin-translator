@@ -47,4 +47,4 @@ limitations under the License.
 
 The following components are provided under the Creative Commons Attribution-ShareAlike 3.0 License.
 
-* CC-CEDICT Chinese English Dictionary - [http://cc-cedict.org/](http://cc-cedict.org/)
+CC-CEDICT Chinese English Dictionary - [http://cc-cedict.org/](http://cc-cedict.org/)

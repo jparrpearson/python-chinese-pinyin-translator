@@ -24,7 +24,9 @@ def main(argv):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding=sys.stdout.encoding, errors="replace")
 
     # Get program arguments
-    usage = "Example usage:\n  translate.py -h -f <file> -d <dir> -t <tones> -c <capitalize> -b <backup>"
+    usage = ("Example usage:\n  translate.py -h --file <filename> --dir <directory>\n"
+        "     --process <filename|text|both> --tones <true|false>\n"
+        "     --capitalize <true|false> --backup <true|false>")
     options = ("Options:\n  -h, --help - Shows the script usage and help options.\n"
         "  -f, --file - The input file to translate.  One of 'file' or 'dir' is required.\n"
         "  -d, --dir - The input directory to translate (translates all files in nested directories).  One of 'dir' or 'file' is required.\n"
@@ -33,14 +35,15 @@ def main(argv):
         "  -c, --capitalize - Capitalize the pinyin (otherwise all lower case).  Defaults to 'true'.\n"
         "  -b, --backup - Backup each translated file (e.g. 'filename.ext.BAK').  Defaults to 'true'.\n")
     try:
-        opts, args = getopt.getopt(argv, "hf:d:p:t:c:b:", ["help", "file=", "dir=", "process=", "tones=", "capitalize=", "backup="])
+        opts, args = getopt.getopt(argv, "?hf:d:p:t:c:b:", ["help", "file=", "dir=", "process=", "tones=", "capitalize=", "backup="])
     except getopt.GetoptError as err:
         print(str(er))
         print(usage)
         sys.exit(2)
     for opt, arg in opts:
-        if opt in ("-h", "--help"):
+        if opt in ("-?", "-h", "--help"):
             print(usage)
+            print()
             print(options)
             sys.exit(0)
         elif opt in ("-f", "--file"):
