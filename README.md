@@ -4,7 +4,7 @@ This is a Python script that translates Chinese characters (traditional or simpl
 
 ## Usage
 
-Translation can be applied to either a single file, all files in a directory (including nested directories).  By default it translates just the file name, but it can also translate the file contents, or both filename and contents.
+Translation can be applied to a single file or all files in a directory (including nested directories).  By default it translates just the file name, but it can also translate the file contents, or both filename and contents.  There is also an option to translate a given string.
 
 For example, to translate the file contents for a file named `test1.txt` in the `test` directory:
 ```
@@ -20,8 +20,9 @@ Note that `Short Name` parameters are specified with a single dash (e.g. `-h`), 
 | Short Name | Long Name | Default | Description |
 | --- | --- | --- |  --- |
 | h | help | - | Shows the script usage and help options. |
-| f | file | - | The input file to translate.  One of `file` or `dir` is required. |
-| d | dir | - | The input directory to translate (translates all files in nested directories).  One of `dir` or `file` is required. |
+| f | file | - | The input file to translate.  One of `file`, `dir`, or `string` is required. |
+| d | dir | - | The input directory to translate (translates all files in nested directories).  One of `file`, `dir`, or `string` is required. |
+| s | string | - | The string to translate.  One of `file`, `dir`, or `string` is required. |
 | p | process | `filename` | Determines what is processed - `filename`, `text`, or `both`. |
 | t | tones | `false` | Output the pinyin tone numbers. |
 | c | capitalize | `true` | Capitalize the pinyin (otherwise all lower case). |

@@ -15,6 +15,7 @@ def main(argv):
     dictionaryFile = "resources/cedict_ts.u8"
     inputFile = ""
     inputDir = ""
+    inputString = ""
     process = "filename"
     tones = False
     capitalize = True
@@ -24,18 +25,19 @@ def main(argv):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding=sys.stdout.encoding, errors="replace")
 
     # Get program arguments
-    usage = ("Example usage:\n  translate.py -h --file <filename> --dir <directory>\n"
+    usage = ("Example usage:\n  translate.py -h --file <filename> --dir <directory> --string <string>\n"
         "     --process <filename|text|both> --tones <true|false>\n"
         "     --capitalize <true|false> --backup <true|false>")
     options = ("Options:\n  -h, --help - Shows the script usage and help options.\n"
-        "  -f, --file - The input file to translate.  One of 'file' or 'dir' is required.\n"
-        "  -d, --dir - The input directory to translate (translates all files in nested directories).  One of 'dir' or 'file' is required.\n"
+        "  -f, --file - The input file to translate.  One of 'dir', 'file', or 'string' is required.\n"
+        "  -d, --dir - The input directory to translate (translates all files in nested directories).  One of 'dir', 'file', or 'string' is required.\n"
+        "  -s, --string - The string to translate (displays in the console).  One of 'dir', 'file', or 'string' is required.\n"
         "  -p, --process - Determines what is processed - 'filename' (default), 'text', or 'both'.\n"
         "  -t, --tones - Output the pinyin tone numbers.  Defaults to 'false'.\n"
         "  -c, --capitalize - Capitalize the pinyin (otherwise all lower case).  Defaults to 'true'.\n"
         "  -b, --backup - Backup each translated file (e.g. 'filename.ext.BAK').  Defaults to 'true'.\n")
     try:
-        opts, args = getopt.getopt(argv, "?hf:d:p:t:c:b:", ["help", "file=", "dir=", "process=", "tones=", "capitalize=", "backup="])
+        opts, args = getopt.getopt(argv, "?hf:d:s:p:t:c:b:", ["help", "file=", "dir=", "string=", "process=", "tones=", "capitalize=", "backup="])
     except getopt.GetoptError as err:
         print(str(er))
         print(usage)
@@ -50,6 +52,8 @@ def main(argv):
             inputFile = arg
         elif opt in ("-d", "--dir"):
             inputDir = arg
+        elif opt in ("-s", "--string"):
+            inputString = arg
         elif opt in ("-p", "--process"):
             if arg not in ("filename", "text", "both"):
                 print("Invalid process option")
@@ -63,8 +67,8 @@ def main(argv):
         elif opt in ("-b", "--backup"):
             backup = True if arg.upper() == "TRUE" else False
 
-    if not inputFile and not inputDir:
-        print("Must provide either a file or directory to translate")
+    if not inputFile and not inputDir and not inputString:
+        print("Must provide either a file, directory, or string to translate")
         print(usage)
         sys.exit(2)
 
@@ -92,6 +96,9 @@ def main(argv):
     elif inputDir:
         count = translateDir(inputDir, dict, process, backup)
         print("Translated " + str(count) + " files")
+    elif inputString:
+        outputString = translateLine(inputString, dict)
+        print("Translated string:\n" + outputString)
 
 def translateFile(inputFile, dict, process, backup):
     """Translates the file (filename, text, or both)."""
@@ -119,10 +126,10 @@ def translateFile(inputFile, dict, process, backup):
 
         # Translate the filename
         if process in ("filename", "both"):
-            filename = translateLine(file.name, dict)
+            filename = translateLine(os.path.basename(file.name), dict)
             file.close()
             print("Changing filename to " + filename)
-            os.rename(file.name, filename)
+            os.rename(file.name, os.path.dirname(file.name) + os.path.sep + filename)
 
 def translateDir(inputDir, dict, process, backup):
     """Translates all files in the given directory, and all nested directories.  Returns the number of files translated."""
@@ -141,18 +148,24 @@ def translateDir(inputDir, dict, process, backup):
 def translateLine(line, dict):
     """Translates and returns a given line of text."""
     text = ""
+    lastChar = ""
+    lineStart = True
     translated = False
     for char in line:
         # Use the matching value in the dictionary, otherwise output the existing character
         try:
             value = dict[char]
-            if translated:
+            if not lineStart and not lastChar.isspace():
                 text += " "
             text += value
             translated = True
         except KeyError:
+            if not lineStart and translated and (char.isalpha() or char.isdigit()):
+                text += " "
             text += char
             translated = False
+        lastChar = char
+        lineStart = False
     return text
 
 def getTime(start, digits=2):
